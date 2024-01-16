@@ -31,6 +31,9 @@ return {
 			end, { desc = '[/] Fuzzily search in current buffer]' })
 			vim.keymap.set('n', '<leader>ds', builtin.lsp_document_symbols, {desc = '[D]ocument [S]ymbols'})
 			vim.keymap.set('n', '<F3>', builtin.diagnostics, {desc = 'diagnostics for current buffer'})
+			vim.keymap.set('n', '<leader>sp', function()
+				require'telescope'.extensions.projects.projects{}
+				end, { desc = '[S]earch [P]roject' })
 
 			require("telescope").load_extension("ui-select")
 		end,
