@@ -8,6 +8,7 @@ return {
         auto_install = true,
         highlight = { enable = true },
         indent = { enable = true },
+		ensure_installed = {"lua", "vim", "vimdoc", "markdown", "html", "query"}
       })
     end
   }
