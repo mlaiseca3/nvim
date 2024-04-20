@@ -9,6 +9,7 @@ vim.keymap.set('n', '<C-t>', vim.cmd.tabnew)
 vim.keymap.set('n', 'gx', [[<CMD>execute '!xdg-open ' .. shellescape(expand('<cfile>'), v:true)<CR>]])
 vim.keymap.set('n', '<S-h>', vim.cmd.bprevious)
 vim.keymap.set('n', '<S-l>', vim.cmd.bnext)
+vim.keymap.set('n', '<leader>o', [[<CMD>browse oldfiles <CR>]])
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
@@ -71,3 +72,6 @@ vim.api.nvim_exec([[
 vim.g.netrw_banner = 3
 
 vim.opt.relativenumber = true
+
+vim.cmd.colorscheme "desert"
+
