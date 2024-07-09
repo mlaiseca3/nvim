@@ -95,6 +95,7 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
+-- Add URL to plugins to install
 require('lazy').setup({
   {'folke/tokyonight.nvim'}, -- colorscheme
   {'VonHeikemen/lsp-zero.nvim', branch = 'v3.x'}, -- setup LSP
@@ -109,12 +110,16 @@ require('lazy').setup({
 	  -- or                              , branch = '0.1.x',
 	  dependencies = { 'nvim-lua/plenary.nvim' }
   },
+  {'lewis6991/gitsigns.nvim'}, -- git integration
+  {'ahmedkhalf/project.nvim'},
+  {'goolord/alpha-nvim', -- start page for when you first open neovim
+  dependencies = {
+	  'nvim-tree/nvim-web-devicons'}
+  },
   {
 	  'nvim-lualine/lualine.nvim',
 	  dependencies = { 'nvim-tree/nvim-web-devicons' }
   },
-  {'lewis6991/gitsigns.nvim'}, -- git integration
-  {'ahmedkhalf/project.nvim'}
 
 
 })
@@ -240,7 +245,20 @@ require('gitsigns').setup {
 
 
 ---
--- search projects
+-- search projects config
 ---
 
 require("project_nvim").setup()
+
+---
+-- alpha config  
+---
+local alpha = require("alpha")
+local dashboard = require("alpha.themes.startify")
+alpha.setup(dashboard.opts)
+
+
+--- 
+-- Lua Line config 
+---
+require('lualine').setup()
