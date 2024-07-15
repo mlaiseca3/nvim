@@ -62,10 +62,10 @@ vim.opt.shiftwidth=4
 
 -- Set tab width to 2 spaces for JavaScript and TypeScript files
 vim.api.nvim_exec([[
-  augroup FileSettings
-    autocmd!
-    autocmd BufRead,BufNewFile *.js,*.ts,*.html,*.tsx,*.jsx set tabstop=2 shiftwidth=2
-  augroup END
+augroup FileSettings
+autocmd!
+autocmd BufRead,BufNewFile *.js,*.ts,*.html,*.tsx,*.jsx set tabstop=2 shiftwidth=2
+augroup END
 ]], false)
 
 -- Show full path in Netrw banner
@@ -81,45 +81,50 @@ local uv = vim.uv or vim.loop
 
 -- Auto-install lazy.nvim if not present
 if not uv.fs_stat(lazypath) then
-  print('Installing lazy.nvim....')
-  vim.fn.system({
-    'git',
-    'clone',
-    '--filter=blob:none',
-    'https://github.com/folke/lazy.nvim.git',
-    '--branch=stable', -- latest stable release
-    lazypath,
-  })
-  print('Done.')
+	print('Installing lazy.nvim....')
+	vim.fn.system({
+		'git',
+		'clone',
+		'--filter=blob:none',
+		'https://github.com/folke/lazy.nvim.git',
+		'--branch=stable', -- latest stable release
+		lazypath,
+	})
+	print('Done.')
 end
 
 vim.opt.rtp:prepend(lazypath)
 
 -- Add URL to plugins to install
 require('lazy').setup({
-  {'folke/tokyonight.nvim'}, -- colorscheme
-  {'VonHeikemen/lsp-zero.nvim', branch = 'v3.x'}, -- setup LSP
-  {'williamboman/mason.nvim'}, -- manage langauge servers
-  {'williamboman/mason-lspconfig.nvim'}, -- manage language servers
-  {'neovim/nvim-lspconfig'}, --  setup LSP
-  {'hrsh7th/cmp-nvim-lsp'}, -- setup LSP
-  {'hrsh7th/nvim-cmp'}, -- completions
-  {'L3MON4D3/LuaSnip'}, -- snippets
-  { -- fuzzy search
-	  'nvim-telescope/telescope.nvim', tag = '0.1.8',
-	  -- or                              , branch = '0.1.x',
-	  dependencies = { 'nvim-lua/plenary.nvim' }
-  },
-  {'lewis6991/gitsigns.nvim'}, -- git integration
-  {'ahmedkhalf/project.nvim'},
-  {'goolord/alpha-nvim', -- start page for when you first open neovim
-  dependencies = {
-	  'nvim-tree/nvim-web-devicons'}
-  },
-  {
-	  'nvim-lualine/lualine.nvim',
-	  dependencies = { 'nvim-tree/nvim-web-devicons' }
-  },
+	{'folke/tokyonight.nvim'}, -- colorscheme
+	{'VonHeikemen/lsp-zero.nvim', branch = 'v3.x'}, -- setup LSP
+	{'williamboman/mason.nvim'}, -- manage langauge servers
+	{'williamboman/mason-lspconfig.nvim'}, -- manage language servers
+	{'neovim/nvim-lspconfig'}, --  setup LSP
+	{'hrsh7th/cmp-nvim-lsp'}, -- setup LSP
+	{'hrsh7th/nvim-cmp'}, -- completions
+	{'L3MON4D3/LuaSnip'}, -- snippets
+	{ -- fuzzy search
+		'nvim-telescope/telescope.nvim', tag = '0.1.8',
+		-- or                              , branch = '0.1.x',
+		dependencies = { 'nvim-lua/plenary.nvim' }
+	},
+	{'lewis6991/gitsigns.nvim'}, -- git integration
+	{'ahmedkhalf/project.nvim'},
+	{'goolord/alpha-nvim', -- start page for when you first open neovim
+	dependencies = {
+		'nvim-tree/nvim-web-devicons'}
+	},
+	{ -- fancy status line at bottom of screen
+		'nvim-lualine/lualine.nvim',
+		dependencies = { 'nvim-tree/nvim-web-devicons' }
+	},
+	{ "lukas-reineke/indent-blankline.nvim", -- added line between indents for easier reading
+		main = "ibl", opts = {}
+	},
+	{'HallerPatrick/py_lsp.nvim'}, -- select python virtual environment
+	{'tpope/vim-fugitive'}, -- git integration
 
 
 })
@@ -134,20 +139,20 @@ require('lazy').setup({
 local lsp_zero = require('lsp-zero')
 
 lsp_zero.on_attach(function(client, bufnr)
-  -- see :help lsp-zero-keybindings
-  -- to learn the available actions
-  lsp_zero.default_keymaps({buffer = bufnr})
+	-- see :help lsp-zero-keybindings
+	-- to learn the available actions
+	lsp_zero.default_keymaps({buffer = bufnr})
 end)
 
 --- if you want to know more about lsp-zero and mason.nvim
 --- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guide/integrate-with-mason-nvim.md
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  handlers = {
-    function(server_name)
-      require('lspconfig')[server_name].setup({})
-    end,
-  }
+	handlers = {
+		function(server_name)
+			require('lspconfig')[server_name].setup({})
+		end,
+	}
 })
 
 ---
@@ -157,26 +162,26 @@ local cmp = require('cmp')
 local cmp_action = lsp_zero.cmp_action()
 
 cmp.setup({
-  mapping = cmp.mapping.preset.insert({
-    -- `Enter` key to confirm completion
-    ['<CR>'] = cmp.mapping.confirm({select = false}),
+	mapping = cmp.mapping.preset.insert({
+		-- `Enter` key to confirm completion
+		['<CR>'] = cmp.mapping.confirm({select = false}),
 
-    -- Ctrl+Space to trigger completion menu
-    ['<C-Space>'] = cmp.mapping.complete(),
+		-- Ctrl+Space to trigger completion menu
+		['<C-Space>'] = cmp.mapping.complete(),
 
-    -- Navigate between snippet placeholder
-    ['<C-f>'] = cmp_action.luasnip_jump_forward(),
-    ['<C-b>'] = cmp_action.luasnip_jump_backward(),
+		-- Navigate between snippet placeholder
+		['<C-f>'] = cmp_action.luasnip_jump_forward(),
+		['<C-b>'] = cmp_action.luasnip_jump_backward(),
 
-    -- Scroll up and down in the completion documentation
-    ['<C-u>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-d>'] = cmp.mapping.scroll_docs(4),
-  }),
-  snippet = {
-    expand = function(args)
-      require('luasnip').lsp_expand(args.body)
-    end,
-  },
+		-- Scroll up and down in the completion documentation
+		['<C-u>'] = cmp.mapping.scroll_docs(-4),
+		['<C-d>'] = cmp.mapping.scroll_docs(4),
+	}),
+	snippet = {
+		expand = function(args)
+			require('luasnip').lsp_expand(args.body)
+		end,
+	},
 })
 
 ---
@@ -262,3 +267,22 @@ alpha.setup(dashboard.opts)
 -- Lua Line config 
 ---
 require('lualine').setup()
+
+--- 
+-- Indent blank line config 
+---
+require("ibl").setup()
+
+---
+-- Python virtual environment selector
+---
+require'py_lsp'.setup {
+  -- This is optional, but allows to create virtual envs from nvim
+  host_python = "/usr/bin/python3",
+  default_venv_name = "venv" -- For local venv
+}
+
+---
+-- Git Fugitive config
+---
+vim.keymap.set('n', '<leader>g', vim.cmd.Git)
