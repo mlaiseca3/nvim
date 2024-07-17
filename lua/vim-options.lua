@@ -6,9 +6,23 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.keymap.set('n', '<leader>e', vim.cmd.Ex)
 vim.keymap.set('n', '<C-t>', vim.cmd.tabnew)
-vim.keymap.set('n', 'gx', [[<CMD>execute '!xdg-open ' .. shellescape(expand('<cfile>'), v:true)<CR>]])
+
+local is_linux = vim.loop.os_uname().sysname == "Linux"
+local is_macos = vim.loop.os_uname().sysname == "Darwin"
+
+if is_linux then
+	print("Running on Linux")
+	-- Add your Linux-specific configurations here
+	vim.keymap.set('n', 'gx', [[<CMD>execute '!xdg-open ' .. shellescape(expand('<cfile>'), v:true)<CR>]])
+elseif is_macos then
+	print("Running on macOS")
+	-- Add your macOS-specific configurations here
+else
+	print("Running on an unsupported OS")
+end
 vim.keymap.set('n', '<S-h>', vim.cmd.bprevious)
 vim.keymap.set('n', '<S-l>', vim.cmd.bnext)
+vim.keymap.set('n', '<leader>o', [[<CMD>browse oldfiles <CR>]])
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
