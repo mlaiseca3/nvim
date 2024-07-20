@@ -11,7 +11,8 @@ return {
 		harpoon:setup()
 		-- REQUIRED
 
-		vim.keymap.set("n", "<leader>a", function() harpoon:list():append() end)
+		vim.keymap.set("n", "<leader>a", function() harpoon:list():append() end,
+			{ desc = "Append buffer to harpoon"})
 
 		vim.keymap.set("n", "<C-h>", function() harpoon:list():select(1) end)
 		vim.keymap.set("n", "<C-j>", function() harpoon:list():select(2) end)
@@ -42,6 +43,9 @@ return {
 
 		vim.keymap.set("n", "<leader>h", function() toggle_telescope(harpoon:list()) end,
 			{ desc = "Open harpoon window" })
+		---
+		-- To remove from harpoon use standard ```dd``` command 
+		---
 
 	end,
 
