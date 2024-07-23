@@ -14,7 +14,8 @@ return {
 			ensure_installed = {
 				"lua_ls",
 				"tsserver",
-				"pyright",
+				-- "pyright",
+				"basedpyright",
 				"eslint",
 			}
 		},
@@ -33,6 +34,12 @@ return {
 				capabilities = capabilities
 			})
 			lspconfig.lua_ls.setup({
+				capabilities = capabilities
+			})
+			-- lspconfig.pyright.setup({
+			-- 	capabilities = capabilities
+			-- })
+			lspconfig.basedpyright.setup({
 				capabilities = capabilities
 			})
 
