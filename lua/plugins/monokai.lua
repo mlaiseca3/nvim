@@ -1,5 +1,6 @@
 return {
 	{
+		enabled=false,
 		"tanvirtin/monokai.nvim",
 		lazy = false,
 		name = "monokai",
