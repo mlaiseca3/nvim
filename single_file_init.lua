@@ -9,7 +9,7 @@ vim.keymap.set('n', '<C-t>', vim.cmd.tabnew)
 vim.keymap.set('n', 'gx', [[<CMD>execute '!xdg-open ' .. shellescape(expand('<cfile>'), v:true)<CR>]])
 vim.keymap.set('n', '<S-h>', vim.cmd.bprevious)
 vim.keymap.set('n', '<S-l>', vim.cmd.bnext)
-vim.keymap.set('n', '<leader>o', [[<CMD>browse oldfiles <CR>]])
+-- vim.keymap.set('n', '<leader>o', [[<CMD>browse oldfiles <CR>]])
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
@@ -73,7 +73,11 @@ vim.g.netrw_banner = 3
 
 vim.opt.relativenumber = true
 
-vim.cmd.colorscheme "desert"
+-- vim.cmd.colorscheme "desert"
+
+--
+-- Lazy plugin manager setup
+--
 
 
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
@@ -97,21 +101,14 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Add URL to plugins to install
 require('lazy').setup({
-	{'folke/tokyonight.nvim'}, -- colorscheme
-	{'VonHeikemen/lsp-zero.nvim', branch = 'v3.x'}, -- setup LSP
-	{'williamboman/mason.nvim'}, -- manage langauge servers
-	{'williamboman/mason-lspconfig.nvim'}, -- manage language servers
-	{'neovim/nvim-lspconfig'}, --  setup LSP
-	{'hrsh7th/cmp-nvim-lsp'}, -- setup LSP
-	{'hrsh7th/nvim-cmp'}, -- completions
-	{'L3MON4D3/LuaSnip'}, -- snippets
-	{ -- fuzzy search
+	{'numToStr/Comment.nvim'}, -- comment out lines quickly using 'gcc'
+	{
 		'nvim-telescope/telescope.nvim', tag = '0.1.8',
 		-- or                              , branch = '0.1.x',
 		dependencies = { 'nvim-lua/plenary.nvim' }
 	},
 	{'lewis6991/gitsigns.nvim'}, -- git integration
-	{'ahmedkhalf/project.nvim'},
+	{'ahmedkhalf/project.nvim'}, -- project integration
 	{'goolord/alpha-nvim', -- start page for when you first open neovim
 	dependencies = {
 		'nvim-tree/nvim-web-devicons'}
@@ -120,100 +117,33 @@ require('lazy').setup({
 		'nvim-lualine/lualine.nvim',
 		dependencies = { 'nvim-tree/nvim-web-devicons' }
 	},
-	{ "lukas-reineke/indent-blankline.nvim", -- added line between indents for easier reading
-		main = "ibl", opts = {}
-	},
-	{'HallerPatrick/py_lsp.nvim'}, -- select python virtual environment
 	{'tpope/vim-fugitive'}, -- git integration
+	{'tpope/vim-surround'}, -- "surroundings"
 	{'iamcco/markdown-preview.nvim'}, -- markdown preview
+	-- {'HallerPatrick/py_lsp.nvim'}, -- select python virtual environment
+	{'neovim/nvim-lspconfig'}, -- lsp configuration for easy setup
+	{'williamboman/mason.nvim'}, -- Easily install and manage LSP servers, DAP servers, linters, and formatters.
+	{'williamboman/mason-lspconfig.nvim'}, -- integrats nvim-lspconfig and mason plugin
+	{'mbbill/undotree'},
 
 
 })
 
--- -- Set colorscheme
--- vim.opt.termguicolors = true
--- vim.cmd.colorscheme('tokyonight')
 
----
--- LSP setup
----
-local lsp_zero = require('lsp-zero')
-
-lsp_zero.on_attach(function(client, bufnr)
-	-- see :help lsp-zero-keybindings
-	-- to learn the available actions
-	lsp_zero.default_keymaps({buffer = bufnr})
-end)
-
---- if you want to know more about lsp-zero and mason.nvim
---- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guide/integrate-with-mason-nvim.md
-require('mason').setup({})
-require('mason-lspconfig').setup({
-	handlers = {
-		function(server_name)
-			require('lspconfig')[server_name].setup({})
-		end,
-	}
-})
-
----
--- Autocompletion config
----
-local cmp = require('cmp')
-local cmp_action = lsp_zero.cmp_action()
-
-cmp.setup({
-	mapping = cmp.mapping.preset.insert({
-		-- `Enter` key to confirm completion
-		['<CR>'] = cmp.mapping.confirm({select = false}),
-
-		-- Ctrl+Space to trigger completion menu
-		['<C-Space>'] = cmp.mapping.complete(),
-
-		-- Navigate between snippet placeholder
-		['<C-f>'] = cmp_action.luasnip_jump_forward(),
-		['<C-b>'] = cmp_action.luasnip_jump_backward(),
-
-		-- Scroll up and down in the completion documentation
-		['<C-u>'] = cmp.mapping.scroll_docs(-4),
-		['<C-d>'] = cmp.mapping.scroll_docs(4),
-	}),
-	snippet = {
-		expand = function(args)
-			require('luasnip').lsp_expand(args.body)
-		end,
-	},
-})
-
----
--- Telescope config
 --
-
-local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
--- vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
-vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
-vim.keymap.set('n', '<leader>/', function()
-	-- You can pass additional configuration to telescope to change theme, layout, etc.
-	require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-		winblend = 10,
-		previewer = false,
-	})
-end, { desc = '[/] Fuzzily search in current buffer]' })
-vim.keymap.set('n', '<leader>ds', builtin.lsp_document_symbols, {desc = '[D]ocument [S]ymbols'})
-vim.keymap.set('n', '<F3>', builtin.diagnostics, {desc = 'diagnostics for current buffer'})
-vim.keymap.set('n', '<leader>sp', function()
-	require'telescope'.extensions.projects.projects{}
-end, { desc = '[S]earch [P]roject' })
-vim.keymap.set('n', '<leader>ds', builtin.lsp_document_symbols, {desc = '[D]ocument [S]ymbols'})
-vim.keymap.set('n', '<F3>', builtin.diagnostics, {desc = 'diagnostics for current buffer'})
+-- Individual plugin setup
+-- 
 
 
----
--- git signs config
----
+--
+-- Comment config
+-- 
+require("Comment").setup()
 
+
+--
+-- Git signs config
+--
 require('gitsigns').setup {
 	signs = {
 		add = { text = '+' },
@@ -231,17 +161,17 @@ require('gitsigns').setup {
 			vim.keymap.set(mode, l, r, opts)
 		end
 		-- Navigation
-		map('n', ']c', function()
+		map('n', '<leader>]', function()
 			if vim.wo.diff then
-				vim.cmd.normal({']c', bang = true})
+				vim.cmd.normal({'<leader>]', bang = true})
 			else
 				gitsigns.nav_hunk('next')
 			end
 		end)
 
-		map('n', '[c', function()
+		map('n', '<leader>[', function()
 			if vim.wo.diff then
-				vim.cmd.normal({'[c', bang = true})
+				vim.cmd.normal({'<leader>[', bang = true})
 			else
 				gitsigns.nav_hunk('prev')
 			end
@@ -249,46 +179,115 @@ require('gitsigns').setup {
 	end
 }
 
-
----
--- search projects config
----
+--
+-- project config 
+--
 
 require("project_nvim").setup()
 
----
+--
 -- alpha config  
----
+--
 local alpha = require("alpha")
-local dashboard = require("alpha.themes.startify")
-alpha.setup(dashboard.opts)
+-- local dashboard = require("alpha.themes.startify")
+-- alpha.setup(dashboard.opts)
+alpha.setup(require'alpha.themes.theta'.config)
 
 
---- 
+--
 -- Lua Line config 
----
+--
 require('lualine').setup()
 
---- 
--- Indent blank line config 
----
-require("ibl").setup()
+--
+-- Python virtual environment selector config
+--
+-- require'py_lsp'.setup {
+-- 	-- This is optional, but allows to create virtual envs from nvim
+-- 	host_python = "/usr/bin/python3",
+-- 	default_venv_name = ".venv" -- For local venv
+-- }
 
----
--- Python virtual environment selector
----
-require'py_lsp'.setup {
-  -- This is optional, but allows to create virtual envs from nvim
-  host_python = "/usr/bin/python3",
-  default_venv_name = ".venv" -- For local venv
-}
-
----
+--
 -- Git Fugitive config
----
+--
 vim.keymap.set('n', '<leader>g', vim.cmd.Git)
 
----
----
----
+
+
+--
+-- Telescope config
+--
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+-- vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch current word under cursor with [G]rep ' })
+vim.keymap.set('n', '<leader>o', builtin.oldfiles, { desc = '[O]ld files' })
+vim.keymap.set('n', '<leader>sb', builtin.buffers, { desc = '[S]earch [B]uffers' })
+vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp documentation for Neovim' })
+vim.keymap.set('n', '<leader>sp', function()
+	require'telescope'.extensions.projects.projects{}
+end, { desc = '[S]earch [P]roject' })
+vim.keymap.set('n', '<leader>/', builtin.current_buffer_fuzzy_find, {desc = 'Current buffer fuzzy find' })
+vim.keymap.set('n', '<leader>ds', builtin.lsp_document_symbols, {desc = '[D]ocument [S]ymbols'})
+vim.keymap.set('n', '<F3>', builtin.diagnostics, {desc = 'diagnostics for current buffer'})
+vim.keymap.set('n', '<leader>sh', builtin.help_tags, {desc = '[S]earch [H]elp tags'})
+
+
+
+
+--
+-- Mason config
+-- this provides an index for LSP from web with easy way to install
+-- manually you'd have to do this with LSP config plugin and find LSP yourself and install via npm 
+--
+require("mason").setup()
+
+
+--
+-- mason-lspconfig config
+-- ensure that the following LSP servers are automatically installed
+--
+require("mason-lspconfig").setup({
+	auto_install = true,
+	ensure_installed = {
+		"lua_ls",
+		"tsserver",
+		"eslint",
+		"pyright",
+		"html",
+	}
+})
+
+
+--
+-- LSP config for easy setup (Neovim has own LSP but this adds a layer on top to manage it)
+-- you need to run setup function to have LSP server attach to client (Neovim buffer)
+-- 
+local lspconfig = require("lspconfig")
+
+
+lspconfig.lua_ls.setup({
+	-- options
+})
+lspconfig.tsserver.setup({
+	-- options
+})
+lspconfig.eslint.setup({
+	-- options
+})
+lspconfig.pyright.setup({
+	-- options
+})
+lspconfig.html.setup({
+	-- options
+	-- html parser comes with Neovim but not LSP, these are different
+})
+
+
+--
+-- Undo tree config
+--
+vim.keymap.set('n', '<leader>ut', vim.cmd.UndotreeToggle)
+
+
 
