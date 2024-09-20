@@ -25,6 +25,7 @@ return {
 			vim.keymap.set('n', '<leader>/', builtin.current_buffer_fuzzy_find, {desc = 'Current buffer fuzzy find' })
 			vim.keymap.set('n', '<leader>ds', builtin.lsp_document_symbols, {desc = '[D]ocument [S]ymbols'})
 			vim.keymap.set('n', '<F3>', builtin.diagnostics, {desc = 'diagnostics for current buffer'})
+			vim.keymap.set('n', '<leader>gs', builtin.git_status, {desc = '[G]it [S]tatus'})
 			vim.keymap.set('n', '<leader>sp', function()
 				require'telescope'.extensions.projects.projects{}
 			end, { desc = '[S]earch [P]roject' })

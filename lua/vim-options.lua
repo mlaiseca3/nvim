@@ -86,4 +86,4 @@ vim.g.netrw_banner = 3
 
 vim.opt.relativenumber = true
 
-vim.cmd [[colorscheme desert]]
+vim.cmd [[colorscheme ron]]
