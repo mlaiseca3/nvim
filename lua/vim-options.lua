@@ -4,7 +4,7 @@
 -- See `:help mapleader`
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
-vim.keymap.set('n', '<leader>e', vim.cmd.Ex)
+-- vim.keymap.set('n', '<leader>e', vim.cmd.Ex)
 vim.keymap.set('n', '<C-t>', vim.cmd.tabnew)
 
 local is_linux = vim.loop.os_uname().sysname == "Linux"
