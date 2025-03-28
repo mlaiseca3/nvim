@@ -4,5 +4,5 @@ return {
 		-- no setup function call required
 	end,
 
-	vim.keymap.set('n', '<leader>g', vim.cmd.Git)
+	vim.keymap.set('n', '<leader>1', vim.cmd.Git, {desc="git fugitive"})
 }

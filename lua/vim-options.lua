@@ -22,9 +22,9 @@ else
 end
 vim.keymap.set('n', '<S-h>', vim.cmd.bprevious)
 vim.keymap.set('n', '<S-l>', vim.cmd.bnext)
-vim.keymap.set('n', '<leader>j', vim.cmd.tabprevious)
-vim.keymap.set('n', '<leader>k', vim.cmd.tabnext)
-vim.keymap.set('n', '<C-s>', ':w<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>j', vim.cmd.tabprevious, {desc="tab-previous"})
+vim.keymap.set('n', '<leader>k', vim.cmd.tabnext, {desc="tab-next"})
+vim.keymap.set('n', '<C-s>', ':w<CR>', { noremap = true, silent = true, desc="save file" })
 -- vim.keymap.set('n', '<leader>o', [[<CMD>browse oldfiles <CR>]])
 
 -- [[ Setting options ]]
