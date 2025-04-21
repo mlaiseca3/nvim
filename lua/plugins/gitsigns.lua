@@ -2,7 +2,8 @@ return {
 	"lewis6991/gitsigns.nvim",
 	lazy = false,
 	keys = {
-		{"<C-n>", "<cmd>Gitsigns next_hunk<cr>", desc = "Next git hunk"},
+		{"<leader]>", "<cmd>Gitsigns next_hunk<cr>", desc = "Next git hunk"},
+		{"<leader[>", "<cmd>Gitsigns prev_hunk<cr>", desc = "Previous git hunk"},
 	},
 	config = function ()
 		require('gitsigns').setup {

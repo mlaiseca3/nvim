@@ -21,7 +21,6 @@ return {
 			vim.keymap.set('n', '<leader>sh', builtin.help_tags, {desc = '[S]earch [H]elp tags'})
 			vim.keymap.set('n', '<leader>sw', builtin.grep_string, {desc = '[S]earch current [W]ord'})
 			vim.keymap.set('n', '<leader>o', builtin.oldfiles, { desc = '[O] Find recently opened files' })
-			vim.keymap.set('n', '<leader><space>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 			vim.keymap.set('n', '<leader>/', builtin.current_buffer_fuzzy_find, {desc = 'Current buffer fuzzy find' })
 			vim.keymap.set('n', '<leader>ds', builtin.lsp_document_symbols, {desc = '[D]ocument [S]ymbols'})
 			vim.keymap.set('n', '<F3>', builtin.diagnostics, {desc = 'diagnostics for current buffer'})
