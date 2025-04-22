@@ -7,9 +7,9 @@ vim.g.maplocalleader = ' '
 vim.keymap.set('n', '<leader>e', vim.cmd.Ex)
 vim.keymap.set('n', '<leader>t', vim.cmd.tabnew)
 vim.keymap.set('n', 'gx', [[<CMD>execute '!xdg-open ' .. shellescape(expand('<cfile>'), v:true)<CR>]])
+vim.keymap.set('n', '<leader>o', [[<CMD>browse oldfiles <CR>]])
 vim.keymap.set('n', '<S-h>', vim.cmd.bprevious)
 vim.keymap.set('n', '<S-l>', vim.cmd.bnext)
-vim.keymap.set('n', '<leader>o', [[<CMD>browse oldfiles <CR>]])
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
