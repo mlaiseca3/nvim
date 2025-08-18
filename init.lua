@@ -8,6 +8,8 @@ vim.keymap.set('n', '<leader>e', vim.cmd.Ex)
 vim.keymap.set('n', '<leader>t', vim.cmd.tabnew)
 vim.keymap.set('n', 'gx', [[<CMD>execute '!xdg-open ' .. shellescape(expand('<cfile>'), v:true)<CR>]])
 vim.keymap.set('n', '<leader>o', [[<CMD>browse oldfiles <CR>]])
+vim.keymap.set('n', 'gd', [[<CMD> lua vim.lsp.buf.definition() <CR>]])
+vim.keymap.set('n', 'gD', [[<CMD> lua vim.lsp.buf.declaration() <CR>]])
 vim.keymap.set('n', '<S-h>', vim.cmd.bprevious)
 vim.keymap.set('n', '<S-l>', vim.cmd.bnext)
 
@@ -74,8 +76,10 @@ require("config.lazy")
 
 -- LSP diagnostics
 
-vim.diagnostic.config({ virtual_text = true })
+-- vim.diagnostic.config({ virtual_text = true })
 
-
-
-
+-- Custom keyboard shortcuts
+vim.keymap.set('n', 'gK', function()
+  local new_config = not vim.diagnostic.config().virtual_lines
+  vim.diagnostic.config({ virtual_lines = new_config })
+end, { desc = 'Toggle diagnostic virtual_lines' })
