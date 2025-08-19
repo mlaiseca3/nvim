@@ -10,8 +10,9 @@ vim.keymap.set('n', 'gx', [[<CMD>execute '!xdg-open ' .. shellescape(expand('<cf
 vim.keymap.set('n', '<leader>o', [[<CMD>browse oldfiles <CR>]])
 vim.keymap.set('n', 'gd', [[<CMD> lua vim.lsp.buf.definition() <CR>]])
 vim.keymap.set('n', 'gD', [[<CMD> lua vim.lsp.buf.declaration() <CR>]])
-vim.keymap.set('n', '<S-h>', vim.cmd.bprevious)
-vim.keymap.set('n', '<S-l>', vim.cmd.bnext)
+vim.keymap.set('n', '<leader>w', [[<CMD> close <CR>]])
+vim.keymap.set('n', '<leader>h', vim.cmd.tabp )
+vim.keymap.set('n', '<leader>l', vim.cmd.tabN )
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
