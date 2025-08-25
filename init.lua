@@ -11,8 +11,8 @@ vim.keymap.set('n', '<leader>o', [[<CMD>browse oldfiles <CR>]])
 vim.keymap.set('n', 'gd', [[<CMD> lua vim.lsp.buf.definition() <CR>]])
 vim.keymap.set('n', 'gD', [[<CMD> lua vim.lsp.buf.declaration() <CR>]])
 vim.keymap.set('n', '<leader>w', [[<CMD> close <CR>]])
-vim.keymap.set('n', '<leader>h', vim.cmd.tabp )
-vim.keymap.set('n', '<leader>l', vim.cmd.tabN )
+vim.keymap.set('n', '<leader>h', vim.cmd.tabprevious )
+vim.keymap.set('n', '<leader>l', vim.cmd.tabnext )
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
